@@ -34,7 +34,13 @@ int main(int argc, char **argv)
 			break;
 		}
 		if (strchr(tobi1.cmd, ';') != NULL)
+		{
 			tobi1.colon = 1;
+			tokenize_semicolon(tobi1.cmd);
+			if (isecho == 0)
+				break;
+			continue;
+		}
 		else
 			tobi1.colon = 0;
 		if (strchr(tobi1.cmd, ';') != NULL)
