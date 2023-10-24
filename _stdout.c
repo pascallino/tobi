@@ -3,8 +3,8 @@
  * _stdout - ======
  * @str: =====
  */
-void _stdout(char *str)
+void _stdout(char *str, int n)
 {
-	write(1, str, strlen(str));
+	write(n, str, strlen(str));
 
 }

@@ -40,7 +40,10 @@ data_t tobi1;
 /*data_t tobi2;*/
 
 void sigint_handler(int signo);
-void _stdout(char *str);
+void _stdout(char *str, int n);
+void putchar_number(int n);
+void execute(char **args);
+int _putchar(char c);
 
 
 #endif

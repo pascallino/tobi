@@ -31,9 +31,12 @@ int main(int argc, char **argv)
 		byte = getline(&tobi1.cmd, &byte, stdin);
 		if (byte == -1)
 		{
-			free(tobi1.cmd);
 			break;
 		}
+		if (strchr(tobi1.cmd, ';') != NULL)
+			tobi1.colon = 1;
+		else
+			tobi1.colon = 0;
 		if (strchr(tobi1.cmd, ';') != NULL)
 		{
 		}
@@ -61,20 +64,32 @@ int main(int argc, char **argv)
 			}
 			arg[i] = NULL;
 			i = 0;
-
+			if (arg[0] == NULL)
+			{
+				if (isecho == 0)
+					break;
+				continue;
+			}
 			if (strcmp(arg[0], "exit") == 0)
 			{
 				break;
 			}
-			if (strcmp(arg[0], "env") == 0)
+			else if (strcmp(arg[0], "env") == 0)
 			{
 				while(environ[i])
 				{
-					_stdout(environ[i]);
-					_stdout("\n");
+					_stdout(environ[i], 1);
+					_stdout("\n", 1);
 					i++;
 				}
 				i = 0;
+				if (isecho == 0)
+					break;
+				continue;
+			}
+			else 
+			{
+				execute(arg);
 				if (isecho == 0)
 					break;
 				continue;
