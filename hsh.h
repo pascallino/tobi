@@ -39,6 +39,7 @@ typedef struct data_t
 data_t tobi1;
 /*data_t tobi2;*/
 
+void sigint_handler(int signo);
 void _stdout(char *str);
 
 

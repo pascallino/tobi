@@ -25,6 +25,7 @@ int main(int argc, char **argv)
 	int i = 0;
 
 	isecho = isatty(STDIN_FILENO);
+	signal(SIGINT, sigint_handler);
 	while(1)
 	{
 		byte = getline(&tobi1.cmd, &byte, stdin);
@@ -63,7 +64,6 @@ int main(int argc, char **argv)
 
 			if (strcmp(arg[0], "exit") == 0)
 			{
-				free(tobi1.cmd);
 				break;
 			}
 			if (strcmp(arg[0], "env") == 0)
@@ -72,8 +72,11 @@ int main(int argc, char **argv)
 				{
 					_stdout(environ[i]);
 					_stdout("\n");
+					i++;
 				}
 				i = 0;
+				if (isecho == 0)
+					break;
 				continue;
 			}
 
