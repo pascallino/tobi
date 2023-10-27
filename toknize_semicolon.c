@@ -1,6 +1,6 @@
 #include  "hsh.h"
 
-void finalexecution(char **args)
+void finalexecution(char **args, char *command)
 {
 	int i = 0;
 	int k = 0;
@@ -24,45 +24,57 @@ void finalexecution(char **args)
 		}
 		ptr[k] = NULL;
 		k = 0;
-		execute(ptr);
-		i++;
-	}
-	i = 0;
-
-
-}
-
-
-
-/**
- * tokenizeOR - tokenize OR || operator
- * @command: command
- * Return: return command
- *     */
-void tokenize_semicolon(char *command)
-{
-	char *token = NULL;
-	static char *arg[12000] = {NULL};
-	int i = 0;
-
-	token = strtok(command, ";\n");
-	while (token)
-	{
-		if (token[0] == '#')
+		if (strcmp(ptr[0], "exit") == 0)
 		{
-			arg[i] = NULL;
-			break;
+			if (ptr[1] == NULL)
+			{
+				free(command);
+				exit(0);
+			}
+			else
+			{
+				handle_exit(ptr[1], command);
+			}
 		}
-		arg[i] = token;
-		token = strtok(NULL, ";\n");
-		i++;
+			execute(ptr);
+			i++;
+		}
+		i = 0;
+
+
 	}
-	arg[i] = NULL;
-	if (arg[0] != NULL)
+
+
+
+	/**
+	 * tokenizeOR - tokenize OR || operator
+	 * @command: command
+	 * Return: return command
+	 *     */
+	void tokenize_semicolon(char *command)
 	{
-		finalexecution(arg);
+		char *token = NULL;
+		static char *arg[12000] = {NULL};
+		int i = 0;
+
+		token = strtok(command, ";\n");
+		while (token)
+		{
+			if (token[0] == '#')
+			{
+				arg[i] = NULL;
+				break;
+			}
+			arg[i] = token;
+			token = strtok(NULL, ";\n");
+			i++;
+		}
+		arg[i] = NULL;
+		if (arg[0] != NULL)
+		{
+			finalexecution(arg, command);
+		}
+		i = 0;
+
+
 	}
-	i = 0;
-
-
-}

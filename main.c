@@ -1,16 +1,5 @@
 #include "hsh.h"
-/**
- * sigint_handler - CTRL C free spaces
- * @signo: =======
- */
-void sigint_handler(int signo)
-{
-	/*Handle SIGINT (Ctrl+C) by freeing allocated memory*/
-	(void) signo;
-	free(tobi1.cmd);
-	exit(0);  /*Terminate the program gracefull*/
-}
-
+int main(int argc, char **argv);
 /**
  * main - entery point
  * @argc: ========
@@ -18,7 +7,7 @@ void sigint_handler(int signo)
  */
 int main(int argc, char **argv)
 {
-	static char *arg[15000] = {NULL};
+	char *arg[15000] = {NULL};
 	size_t byte = 0;
 	int isecho = 1;
 	char *token = NULL;
@@ -26,6 +15,8 @@ int main(int argc, char **argv)
 
 	isecho = isatty(STDIN_FILENO);
 	signal(SIGINT, sigint_handler);
+	if (argc >= 2)
+		/*handle_file(argv[1]);*/
 	while(1)
 	{
 		byte = getline(&tobi1.cmd, &byte, stdin);
@@ -78,7 +69,10 @@ int main(int argc, char **argv)
 			}
 			if (strcmp(arg[0], "exit") == 0)
 			{
-				break;
+				if (arg[1] == NULL)
+					break;
+				else
+					handle_exit(arg[1], tobi1.cmd);
 			}
 			else if (strcmp(arg[0], "env") == 0)
 			{

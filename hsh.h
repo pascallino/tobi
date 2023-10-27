@@ -45,7 +45,9 @@ void putchar_number(int n);
 void execute(char **args);
 int _putchar(char c);
 void freedoublepointer(char **args);
-void finalexecution(char **args);
+void finalexecution(char **args, char *command);
 void tokenize_semicolon(char *command);
+void handle_exit(char *args, char *command);
+int checkforletter(char *str);
 
 #endif
