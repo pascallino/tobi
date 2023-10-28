@@ -15,12 +15,14 @@ void handle_exit(char *args, char *command)
 			_stdout(args, 2);
 			_stdout("\n", 2);
 			free(command);
+			tobi1.exitcode = 2;
 			exit(2);
 		}
 		else
 		{
 			no = atoi(args);
 			free(command);
+			tobi1.exitcode = no;
 			exit(no);
 		}
 	}

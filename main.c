@@ -14,9 +14,15 @@ int main(int argc, char **argv)
 	int i = 0;
 
 	isecho = isatty(STDIN_FILENO);
+	tobi1.errnum = 0;
+	tobi1.exitcode = 0;
+	tobi1.app_name = argv[0];
 	signal(SIGINT, sigint_handler);
 	if (argc >= 2)
-		/*handle_file(argv[1]);*/
+	{
+		handle_file(argv[1]);
+		exit(0);
+	}
 	while(1)
 	{
 		byte = getline(&tobi1.cmd, &byte, stdin);
@@ -89,7 +95,7 @@ int main(int argc, char **argv)
 			}
 			else 
 			{
-				execute(arg);
+				execute(arg, arg[1]);
 				if (isecho == 0)
 					break;
 				continue;

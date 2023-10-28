@@ -36,7 +36,7 @@ void finalexecution(char **args, char *command)
 				handle_exit(ptr[1], command);
 			}
 		}
-			execute(ptr);
+			execute(ptr, ptr[1]);
 			i++;
 		}
 		i = 0;

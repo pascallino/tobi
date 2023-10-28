@@ -1,21 +1,36 @@
 #include "hsh.h"
-void execute(char **args);
+void execute(char **args, char *ech);
 /**
- *  exececute - ======
- *  @command:  =======
- */
-void execute(char **args)
+ *  *  exececute - ======
+ *   *  @command:  =======
+ *    */
+void execute(char **args, char *ech)
 {
 	int pid;
 	int exit_status;
 
-	tobi1.errnum;
+	tobi1.errnum++;
+	(void)ech;
 	pid  = fork();
 
 	if (pid == 0)
 	{
 		if (strcmp(args[0], "echo") == 0)
 		{
+			if (strcmp(ech, "$$") == 0)
+			{
+				putchar_number(getppid());
+				_stdout("\n", 1);
+				tobi1.exitcode = 0;
+				exit(0);
+			}
+			else if (strcmp(ech, "$?") == 0)
+			{
+				putchar_number(tobi1.exitcode);
+				_stdout("\n", 1);
+				tobi1.exitcode = 0;
+				exit(0);
+			}
 			execve("/bin/echo", args, environ);
 		}
 		else if (strcmp(args[0], "ls") == 0)
@@ -32,10 +47,12 @@ void execute(char **args)
 		_stdout(": ", 2);/*./hsh: 1: qwerty: not found*/
 		_stdout(args[0], 2);
 		_stdout(": not found\n", 2);
+		tobi1.exitcode = 2;
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
+		tobi1.exitcode = 2;
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -48,8 +65,12 @@ void execute(char **args)
 			exit_status = WEXITSTATUS(status);
 			if (exit_status  != 0 && (!isatty(STDIN_FILENO) && !(tobi1.colon == 1)))
 			{
+				tobi1.exitcode = exit_status;
 				exit(exit_status);
 			}
 		}
+		if (exit_status == 1)
+		  tobi1.exitcode = 127;
 	}
 }
+

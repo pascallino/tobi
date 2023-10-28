@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <signal.h>
 extern char **environ;
+#define ARG_LENGTH 15000
 /**
  * struct tobi - ==============
  * @tbi2: =======
@@ -28,6 +29,8 @@ typedef struct tobi
  * @app_name: =======
  * @errnum: ==========
  * @colon: =====
+ * @isfile: ===========
+ * @exitcode: =============
  */
 typedef struct data_t
 {
@@ -35,6 +38,8 @@ typedef struct data_t
 	char *app_name;
 	int errnum;
 	int colon;
+	int isfile;
+	int exitcode;
 } data_t;
 data_t tobi1;
 /*data_t tobi2;*/
@@ -42,12 +47,14 @@ data_t tobi1;
 void sigint_handler(int signo);
 void _stdout(char *str, int n);
 void putchar_number(int n);
-void execute(char **args);
+void execute(char **args, char *ech);
 int _putchar(char c);
 void freedoublepointer(char **args);
 void finalexecution(char **args, char *command);
 void tokenize_semicolon(char *command);
 void handle_exit(char *args, char *command);
 int checkforletter(char *str);
+void freesinglepointer(char **args);
+char handle_file(char *filename);
 
 #endif

@@ -1,49 +1,86 @@
-#include "main.h"
-/**
- *  * filehandler - executes command in file
- *   * @filename: filename
- *    * Return: char **
- *     */
+#include "hsh.h"
 
-char **handle_file(char *filename)
+
+
+void reset_arg(char **arg)
 {
-	char line[100000] = {'\0'};
+int i = 0;
+
+while (arg[i])
+{
+	arg[i] = NULL;
+	i++;
+}
+}
+/**
+ * handle_file - executes command in file
+ * @filename: filename
+ * Return: char **
+ */
+char handle_file(char *filename)
+{
+	char line[15000] = {'\0'};
 	int fd;
+	char *copyline = NULL;
 	int arg_count = 0;
-	char **args = NULL;
-	/*static char *args[MAX_COMMAND_LENGTH];*/
+	/*char **args = NULL;*/
 	size_t nread = 0;
 	char *token = NULL;
+	char buffer[15000];
+	int i = 0;
+	int lineLength = 0;
+	char *args[15000] = {NULL};
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		write(2, "./hsh: 0: Can't open ", strlen("./hsh: 0: Can't open "));
-		write(2, filename, strlen(filename));
-		write(2, "\n", 1);
+		_stdout("./hsh: 0: Can't open ", 2);
+		_stdout(filename, 2);
+		_stdout("\n", 2);
+		tobi1.exitcode = 127;
 		exit(127);
 	}
-	args = malloc(sizeof(char *) * 1000);
-	while ((nread = read(fd, line, MAX_ARG_LENGTH)) > 0)
+	while ((nread = read(fd, buffer, 15000)) > 0)
 	{
-		if (line != NULL)
+		for (i = 0; i < nread; i++)
 		{
-			token = strtok(line, ";\n");
-			while (token != NULL)
+			if (buffer[i] == '\n')
 			{
-				if (token[0] == '#')
+				line[lineLength] = '\n';
+				line[lineLength + 1] = '\0';
+				token = strtok(line, " \n");
+				while (token != NULL)
 				{
-					args[arg_count++] = NULL;
-					break;
+					if (token[0] == '#')
+					{
+						args[arg_count] = NULL;
+						break;
+					}
+					args[arg_count] = token;
+					/*strcpy(args[arg_count], token);*/
+					token = strtok(NULL, " \n");
+						arg_count++;
 				}
-				args[arg_count] = malloc(sizeof(token));
-				strcpy(args[arg_count], token);
-				token = strtok(NULL, ";\n");
-				arg_count++;
+				/* check if there is an empty space or newline*/
+				token = strtok(args[0], " \n");
+				if (token != NULL)
+				{
+					/*args[arg_count] = NULL;*/
+					execute(args, args[1]);
+				}
+				strcpy(line, "\0");
+				reset_arg(args);
+				arg_count = 0;
+				lineLength = 0;
+
+			}
+			else
+			{
+				line[lineLength] = buffer[i];
+				lineLength++;
 			}
 		}
 	}
-	args[arg_count] = NULL;
+	/*args[arg_count] = NULL;*/
 	close(fd);
-	return (args);
 }
