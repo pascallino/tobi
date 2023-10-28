@@ -22,6 +22,7 @@ void execute(char **args, char *ech)
 				putchar_number(getppid());
 				_stdout("\n", 1);
 				tobi1.exitcode = 0;
+				free(tobi1.cmd);
 				exit(0);
 			}
 			else if (strcmp(ech, "$?") == 0)
@@ -29,6 +30,7 @@ void execute(char **args, char *ech)
 				putchar_number(tobi1.exitcode);
 				_stdout("\n", 1);
 				tobi1.exitcode = 0;
+				free(tobi1.cmd);
 				exit(0);
 			}
 			execve("/bin/echo", args, environ);
@@ -48,6 +50,7 @@ void execute(char **args, char *ech)
 		_stdout(args[0], 2);
 		_stdout(": not found\n", 2);
 		tobi1.exitcode = 2;
+		free(tobi1.cmd);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
@@ -69,8 +72,9 @@ void execute(char **args, char *ech)
 				exit(exit_status);
 			}
 		}
+
 		if (exit_status == 1)
-		  tobi1.exitcode = 127;
+			tobi1.exitcode = 127;
 	}
 }
 
