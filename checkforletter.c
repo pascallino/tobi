@@ -1,5 +1,9 @@
 #include  "hsh.h"
-
+/**
+ * checkforletter - ========================
+ * @str: ======================
+ * Return: ======================
+ */
 int checkforletter(char *str)
 {
 
@@ -13,7 +17,7 @@ int checkforletter(char *str)
 		}
 		i++;
 	}
-	return (0);;
+	return (0);
 }
 
 

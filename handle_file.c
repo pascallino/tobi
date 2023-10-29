@@ -1,7 +1,10 @@
 #include "hsh.h"
-
-
-
+void reset_arg(char **arg);
+void handle_file(char *filename);
+/**
+ * reset_arg - reset arg
+ * @arg: =====================
+ */
 void reset_arg(char **arg)
 {
 int i = 0;
@@ -17,14 +20,13 @@ while (arg[i])
  * @filename: filename
  * Return: char **
  */
-char handle_file(char *filename)
+void handle_file(char *filename)
 {
 	char line[15000] = {'\0'};
 	int fd;
-	char *copyline = NULL;
 	int arg_count = 0;
 	/*char **args = NULL;*/
-	size_t nread = 0;
+	int nread = 0;
 	char *token = NULL;
 	char buffer[15000];
 	int i = 0;
@@ -66,7 +68,10 @@ char handle_file(char *filename)
 				if (token != NULL)
 				{
 					/*args[arg_count] = NULL;*/
-					execute(args, args[1]);
+					if (args[1] != NULL)
+						execute(args, args[1]);
+					else
+						execute(args, "None");
 				}
 				strcpy(line, "\0");
 				reset_arg(args);

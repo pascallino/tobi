@@ -1,10 +1,10 @@
 echo $$     
+ls -la
+echo $?                      
+                                                               
+echo pascal
 
-
-/bin/ls -l
-
-
-
+echo 
 ls
 
 

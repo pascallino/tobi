@@ -6,9 +6,10 @@
  */
 void handle_exit(char *args, char *command)
 {
+	int no;
+
 	if (args != NULL)/*./hsh: 1: exit: Illegal number: HBTN*/
 	{
-		int no;
 		if (checkforletter(args) == 2)
 		{
 			_stdout("./hsh: 1: exit: Illegal number: ", 2);

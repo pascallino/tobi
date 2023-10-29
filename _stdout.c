@@ -2,6 +2,7 @@
 /**
  * _stdout - ======
  * @str: =====
+ * @n: ======================
  */
 void _stdout(char *str, int n)
 {

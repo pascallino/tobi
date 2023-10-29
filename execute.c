@@ -1,15 +1,17 @@
 #include "hsh.h"
 void execute(char **args, char *ech);
 /**
- *  *  exececute - ======
- *   *  @command:  =======
- *    */
+ * execute - ======
+ * @args:  =======
+ * @ech: ============
+ */
 void execute(char **args, char *ech)
 {
 	int pid;
 	int exit_status;
 
-	tobi1.errnum++;
+	if (tobi1.colon != 1)
+		tobi1.errnum++;
 	(void)ech;
 	pid  = fork();
 
@@ -33,7 +35,10 @@ void execute(char **args, char *ech)
 				free(tobi1.cmd);
 				exit(0);
 			}
-			execve("/bin/echo", args, environ);
+			else
+			{
+				execve("/bin/echo", args, environ);
+			}
 		}
 		else if (strcmp(args[0], "ls") == 0)
 		{
@@ -66,6 +71,8 @@ void execute(char **args, char *ech)
 		if (WIFEXITED(status))
 		{
 			exit_status = WEXITSTATUS(status);
+			if (exit_status == 1)
+				tobi1.exitcode = 127;
 			if (exit_status  != 0 && (!isatty(STDIN_FILENO) && !(tobi1.colon == 1)))
 			{
 				tobi1.exitcode = exit_status;
@@ -77,4 +84,3 @@ void execute(char **args, char *ech)
 			tobi1.exitcode = 127;
 	}
 }
-

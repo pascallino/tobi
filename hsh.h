@@ -55,6 +55,6 @@ void tokenize_semicolon(char *command);
 void handle_exit(char *args, char *command);
 int checkforletter(char *str);
 void freesinglepointer(char **args);
-char handle_file(char *filename);
+void handle_file(char *filename);
 
 #endif
