@@ -64,7 +64,7 @@ void tokenize_semicolon(char *command)
 	static char *arg[12000] = {NULL};
 	int i = 0;
 
-	token = strtok(command, ";\n");
+	token = strtok(command, ";|&\n");
 	while (token)
 	{
 		if (token[0] == '#')
@@ -73,7 +73,7 @@ void tokenize_semicolon(char *command)
 			break;
 		}
 		arg[i] = token;
-		token = strtok(NULL, ";\n");
+		token = strtok(NULL, ";|&\n");
 		i++;
 	}
 	arg[i] = NULL;

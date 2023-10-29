@@ -42,13 +42,15 @@ int main(int argc, char **argv)
 				break;
 			continue;
 		}
-		else if (strchr(tobi1.cmd, '&') != NULL)
+		else if (strchr(tobi1.cmd, '&') != NULL || strchr(tobi1.cmd, '|') != NULL)
 		{
-			return (0);
-		}
-		else if (strchr(tobi1.cmd, '|') != NULL)
-		{
-			return (1);
+			tobi1.errnum++;
+			tobi1.colon = 1;
+			tokenize_semicolon(tobi1.cmd);
+			tobi1.colon = 0;
+			if (isecho == 0)
+				break;
+			continue;
 		}
 		else
 		{

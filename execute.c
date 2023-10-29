@@ -82,5 +82,7 @@ void execute(char **args, char *ech)
 
 		if (exit_status == 1)
 			tobi1.exitcode = 127;
+		else
+			tobi1.exitcode = exit_status;
 	}
 }
