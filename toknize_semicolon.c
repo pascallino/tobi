@@ -29,6 +29,8 @@ void finalexecution(char **args, char *command)
 		}
 		ptr[k] = NULL;
 		k = 0;
+		if (ptr[0] != NULL)
+		{
 		if (strcmp(ptr[0], "exit") == 0)
 		{
 			if (ptr[1] == NULL)
@@ -45,6 +47,7 @@ void finalexecution(char **args, char *command)
 			execute(ptr, ptr[1]);
 		else
 			execute(ptr, "none");
+		}
 		i++;
 	}
 	i = 0;
